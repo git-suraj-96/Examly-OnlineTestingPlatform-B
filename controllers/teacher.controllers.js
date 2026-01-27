@@ -13,6 +13,8 @@ const handleTeacherSetQuestion = async(req, res) => {
         const {email} = decode;
         const user = await userModel.findOne({email: email});
         if(!user) return res.status(403).json({success: false, message: "Unauthorized Access"});
+        if(user.payment === "pending") return res.status(402).json({success: false, message: "You can not set Question.\nYour Payment is Pending."})
+            
         const questionVerificationOtp = crypto.randomInt(100000, 999999);
 
         const setQuestion = await questionModel.create({

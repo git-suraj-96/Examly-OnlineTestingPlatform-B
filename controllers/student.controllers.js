@@ -19,6 +19,8 @@ const signupStudent = async (req, res) => {
     const instituteBelongTo = await userModel.findOne({
       institute: institute.toLowerCase(),
     });
+
+    const demoOtp = -Math.floor(Math.random() * 1000000);
     const newUser = await studentModel.create({
       email,
       fullName,
@@ -26,6 +28,7 @@ const signupStudent = async (req, res) => {
       institute,
       password: hashedPassword,
       role: "student",
+      newTest:{otp: demoOtp}
     });
     instituteBelongTo.students.push(newUser._id);
     await instituteBelongTo.save();

@@ -41,28 +41,29 @@ const studentSchema = new mongoose.Schema({
 
             testName: {
                 type: String,
-                required: true
+                default: "None"
             },
 
             otp: {
                 type: Number,
-                required: true,
-                unique: true
             }
         }
     ],
 
     finishedTest: {
         obtainedMarks: {
-            type: String
+            type: String,
+            default: "No Test Yet"
         },
 
         testName: {
-            type: String
+            type: String,
+            default: "None"
         },
 
         finishedDate: {
-            type: String
+            type: String,
+            default: "None"
         }
     }
 
