@@ -38,6 +38,9 @@ const handleTeacherSetQuestion = async (req, res) => {
             await student.save();
         }
 
+        user.payment = "pending";
+        await user.save();
+
         return res.status(200).json({
             success: true,
             message: "All set"
