@@ -71,7 +71,8 @@ const signupNewInstitute = async (req, res) => {
             password: hashedPassword,
             phone: phoneValue,
             role: "teacher",
-            institute: instituteValue
+            institute: instituteValue,
+            payment: "paid"
         });
 
         if (createdUser) {
