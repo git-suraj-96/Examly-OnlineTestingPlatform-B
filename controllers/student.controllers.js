@@ -32,6 +32,12 @@ const signupStudent = async (req, res) => {
     });
     instituteBelongTo.students.push(newUser._id);
     await instituteBelongTo.save();
+    if(instituteBelongTo.teacherQuestionId.length > 0){
+      for(let test of instituteBelongTo.teacherQuestionId){
+        newUser.newTest.push({questionID :test.questionID, testName: test.testName, otp: test.otp });
+      }
+      await newUser.save();
+    }
     const token = jwt.sign(
       { email: newUser.email, id: newUser._id },
       process.env.JWT_SECRET,
@@ -85,9 +91,11 @@ const getOtp = async (req, res) => {
 const finishedTest = async(req, res) => {
   try{
     const {token, correctMarks, totalMarks, testOtp, date} = req.body;
-    if(!token || !correctMarks || !totalMarks || !date) return res.status(401).json({success: false, message: "Something is missing"});
+
+    if(!token || !date) return res.status(409).json({success: false, message: "Kuch to missed hain.", data: {token, correctMarks, totalMarks, date }}); 
 
     const decode = jwt.verify(token, process.env.JWT_SECRET);
+
     const {email} = decode;
 
     const student = await studentModel.findOne({email: email});

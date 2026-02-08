@@ -16,7 +16,7 @@ const handleTeacherSetQuestion = async (req, res) => {
     try {
         const { questionBank, questionTopic, token } = req.body;
         if (!questionBank || !questionTopic || !token) return res.json(400).json({ success: false, message: "Data Missing" });
-        const decode = await jwt.verify(token, process.env.JWT_SECRET);
+        const decode =  jwt.verify(token, process.env.JWT_SECRET);
         const { email } = decode;
         const user = await userModel.findOne({ email: email });
         if (!user) return res.status(403).json({ success: false, message: "Unauthorized Access" });
